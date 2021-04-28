@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Family Tree</title>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="grid-container-2">
+            <div id="father-first" class="grid-item"></div>
+            <div class="grid-container-3">
+                <div id="father-second" class="grid-item"></div>
+                <div id="father-third" class="grid-item"></div>
+                <div id="father-last" class="grid-item"></div>
+            </div>
+        </div>
+        <div id="up" class="grid-item-arrow">up</div>
+        <div class="grid-container-2">
+            <div id="mother-first" class="grid-item"></div>
+            <div class="grid-container-3">
+                <div id="mother-second" class="grid-item"></div>
+                <div id="mother-third" class="grid-item"></div>
+                <div id="mother-last" class="grid-item"></div>
+            </div>
+        </div>
+        <div id="left" class="grid-item-arrow">left</div>
+        <div class="grid-container-2">
+            <div id="label-first" class="grid-item"></div>
+            <div class="grid-container-3">
+                <div id="label-second" class="grid-item"></div>
+                <div id="label-third" class="grid-item"></div>
+                <div id="label-last" class="grid-item"></div>
+            </div>
+        </div>
+        <div id="right" class="grid-item-arrow">right</div>
+        <div></div>
+        <div id="down" class="grid-item-arrow">down</div>
+        <div></div>
+    </div>
+</body>
+
+<script>
+window.onload = function(){
+    var df2 = {{ dfJSON|tojson }};
+    var df1 = JSON.parse(df2);
+    var df = Object.values(df1);
+
+    var df_sub = df.filter(i => i.father === 0);
+    var i = 0;
+
+    var father_first = document.getElementById('father-first').textContent;
+    var father_second = document.getElementById('father-second').textContent;
+    var label_first = document.getElementById('label-first').textContent;
+    var label_second = document.getElementById('label-second').textContent;
+
+    function names_adding(i) {
+        document.getElementById('label-first').innerHTML = df_sub[i].first;
+        document.getElementById('label-second').innerHTML = df_sub[i].second;
+        document.getElementById('label-third').innerHTML = df_sub[i].third;
+        document.getElementById('label-last').innerHTML = df_sub[i].last;
+        document.getElementById('father-first').innerHTML = df[df_sub[i].father].first;
+        document.getElementById('father-second').innerHTML = df[df_sub[i].father].second;
+        document.getElementById('father-third').innerHTML = df[df_sub[i].father].third;
+        document.getElementById('father-last').innerHTML = df[df_sub[i].father].last;
+        document.getElementById('mother-first').innerHTML = df[df_sub[i].mother].first;
+        document.getElementById('mother-second').innerHTML = df[df_sub[i].mother].second;
+        document.getElementById('mother-third').innerHTML = df[df_sub[i].mother].third;
+        document.getElementById('mother-last').innerHTML = df[df_sub[i].mother].last;
+    };
+    console.log(df_sub[i].first);
+
+    names_adding(i);
+
+    function change_left() {
+        i --;
+        if(i<0) {i=0};
+        console.log(i);
+        names_adding(i);
+        return true
+    };
+
+    function change_right() {
+        i ++;
+        if(i>Object.keys(df_sub).length - 1) {i=Object.keys(df_sub).length - 1};
+        console.log(i);
+        names_adding(i);
+        return true
+    };
+
+    function change_up() {
+        father_first = document.getElementById('father-first').textContent;
+        father_second = document.getElementById('father-second').textContent;
+        label_first = document.getElementById('label-first').textContent;
+        label_second = document.getElementById('label-second').textContent;
+        var father_number = df.filter(i => i.first === father_first && i.second === father_second)[0].father;
+        console.log(father_number);
+        if (father_number === null){
+            father_number = df.filter(i => i.first === father_first && i.second === father_second)[0].index;
+        };
+        df_sub = df.filter(i => i.father === father_number);
+        console.log(df_sub);
+        i = df_sub.findIndex(i => i.first === father_first);
+        if (i === -1) {
+            i = 0;
+        };
+        names_adding(i);
+    };
+
+    function change_down() {
+        father_first = document.getElementById('father-first').textContent;
+        father_second = document.getElementById('father-second').textContent;
+        label_first = document.getElementById('label-first').textContent;
+        label_second = document.getElementById('label-second').textContent;
+        father_number = df.filter(i => i.first === label_first && i.second === label_second)[0].index;
+        df_sub = df.filter(i => i.father === father_number);
+        if (df_sub.length === 0){
+            father_number = df.filter(i => i.first === father_first && i.second === father_second)[0].index;
+            df_sub = df.filter(i => i.father === father_number);
+        };
+        console.log(df_sub);
+        i = df_sub.findIndex(i => i.first === label_first);
+        if (i === -1) {
+            i = 0;
+        };
+        console.log(i);
+        names_adding(i);
+    };
+
+    document.getElementById('left').onclick = function(){
+        change_left();
+    };
+
+    document.getElementById('right').onclick = function(){
+        change_right();
+    };
+
+    document.getElementById('up').onclick = function(){
+        change_up();
+    };
+
+    document.getElementById('down').onclick = function(){
+        change_down();
+    };
+};
+</script>
+
+</html>
+
