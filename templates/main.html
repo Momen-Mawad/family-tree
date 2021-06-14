@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Family Tree</title>
+    <script src="{{ url_for('static', filename='OrgChart.js') }}"></script>
+</head>
+
+<body>
+    <div style="width:100%; height:700px;" id="orgchart"/>
+</body>
+
+<script>
+    var chart = new OrgChart(document.getElementById("orgchart"), {
+        nodeBinding: {
+            field_0: "first"
+        },
+        nodes:
+            {{data|tojson}}
+    });
+</script>
+
+</html>
+
