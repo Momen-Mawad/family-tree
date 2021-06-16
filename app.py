@@ -11,9 +11,11 @@ for i in data:
         i["tags"] = [i["tags"]]
     if i["tags"] == '':
         i.pop("tags")
+    i['img'] = 'static/photos/' + str(i['img']) + '.jpeg'
 
 for i in data:
     print(i)
+    break
 
 app = Flask(__name__)
 
