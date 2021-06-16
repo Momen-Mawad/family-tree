@@ -3,8 +3,10 @@ from flask import Flask
 import csv
 
 with open('static/data.csv', encoding='UTF-8') as f:
-    data = [{k: str(v) for k, v in row.items()}
+    data = [{k: v for k, v in row.items()}
         for row in csv.DictReader(f, skipinitialspace=True)]
+
+
 
 for i in data:
     if i["tags"] == 'partner':
@@ -13,9 +15,6 @@ for i in data:
         i.pop("tags")
     i['img'] = 'static/photos/' + str(i['img']) + '.jpeg'
 
-for i in data:
-    print(i)
-    break
 
 app = Flask(__name__)
 
