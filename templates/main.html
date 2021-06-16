@@ -41,6 +41,10 @@
 
     var chart = new OrgChart(document.getElementById("tree"), {
         mouseScrool: OrgChart.action.scroll,
+        collapse: {
+            level: 1,
+            allChildren: true
+        },
         template: "myTemplate",
         tags: {
             "partner": {
