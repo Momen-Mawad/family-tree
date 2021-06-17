@@ -14,8 +14,7 @@ for i in data:
     i['img'] = 'static/photos/' + str(i['img']) + '.jpeg'
 
 app = Flask(__name__)
-
-app.root_path
+app.config["CACHE_TYPE"] = "null"
 
 @app.route('/', methods=['GET'])
 def main():
@@ -25,4 +24,4 @@ def main():
 
 if __name__ == "__main__":
     app.secret_key = '123456'
-    app.run(debug='Enable', use_reloader=True)
+    app.run()
