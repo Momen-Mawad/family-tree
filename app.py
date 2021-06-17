@@ -6,8 +6,6 @@ with open('static/data.csv', encoding='UTF-8') as f:
     data = [{k: v for k, v in row.items()}
         for row in csv.DictReader(f, skipinitialspace=True)]
 
-
-
 for i in data:
     if i["tags"] == 'partner':
         i["tags"] = [i["tags"]]
@@ -15,14 +13,14 @@ for i in data:
         i.pop("tags")
     i['img'] = 'static/photos/' + str(i['img']) + '.jpeg'
 
-
 app = Flask(__name__)
 
+app.root_path
 
 @app.route('/', methods=['GET'])
 def main():
 
-    return render_template('main.html', dfJSON=None, data=data)
+    return render_template('main.html', data=data)
 
 
 if __name__ == "__main__":
