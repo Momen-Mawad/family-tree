@@ -46,6 +46,7 @@
 
     var chart = new OrgChart(document.getElementById("tree"), {
         mouseScrool: OrgChart.action.scroll,
+        nodeMouseClick: OrgChart.action.pan,
         collapse: {
             level: 3,
             allChildren: true
